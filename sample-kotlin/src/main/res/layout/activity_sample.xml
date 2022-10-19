@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="5dp"
+            tools:context="omnifit.sdk.javatestapplication.MainActivity">
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_scan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Scan" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_connect"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/btn_scan"
+                tools:text="Connect" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_scan_connect"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/btn_connect"
+                tools:text="Waiting" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_get_serial"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/get_serial_num"
+                app:layout_constraintTop_toBottomOf="@id/btn_scan_connect" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_get_signal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/get_signal_stability"
+                app:layout_constraintTop_toBottomOf="@id/btn_get_serial" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_get_start"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/get_measure_time"
+                app:layout_constraintTop_toBottomOf="@id/btn_get_signal" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_device"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:textSize="15sp"
+                app:layout_constraintTop_toBottomOf="@id/btn_get_start"
+                tools:text="Device information" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_scan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:textSize="15sp"
+                app:layout_constraintTop_toBottomOf="@id/tv_device"
+                tools:text="Not scan" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_connect"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:textSize="15sp"
+                app:layout_constraintTop_toBottomOf="@id/tv_scan"
+                tools:text="Disconnecting" />
+
+            <TextView
+                android:id="@+id/tv_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:textSize="15sp"
+                app:layout_constraintTop_toBottomOf="@id/tv_connect"
+                tools:text="Status" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:textSize="12sp"
+                app:layout_constraintTop_toBottomOf="@id/tv_status"
+                tools:text="데이터" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</layout>
