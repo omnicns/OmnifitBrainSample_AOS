@@ -10,6 +10,7 @@ import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import omnifit.sdk.omnifitbrain.OCWH20ViewModel
+import omnifit.sdk.omnifitbrain.model.Result
 import omnifit.sdk.sample.omnfitbrain.databinding.ActivitySampleBinding
 
 class SampleActivity : AppCompatActivity() {
@@ -63,6 +64,14 @@ class SampleActivity : AppCompatActivity() {
                 }
             }
 
+            btnMeasure.setOnClickListener {
+                viewModel.startMeasuring(measuringTime = 30, eyesState = Result.EyesState.CLOSED, onError = { throwable ->
+                    runOnUiThread {
+                        Toast.makeText(applicationContext, throwable.message.toString(), Toast.LENGTH_SHORT).show()
+                    }
+                })
+            }
+
             btnGetSerial.setOnClickListener {
                 viewModel.readSerialNo { serialNum ->
                     runOnUiThread {
@@ -114,6 +123,16 @@ class SampleActivity : AppCompatActivity() {
                     binding.btnScanConnect.text = "Stop scanning or disconnecting"
                 } else {
                     binding.btnScanConnect.text = "Waiting"
+                }
+            }
+
+            isMeasuring.observe(this@SampleActivity) {
+                if (it) {
+                    binding.tvMeasure.text = "Measuring"
+                    binding.btnMeasure.text = "Stop measuring"
+                } else {
+                    binding.tvMeasure.text = "Not measuring"
+                    binding.btnMeasure.text = "Start measuring"
                 }
             }
 
