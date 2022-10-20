@@ -1,4 +1,5 @@
 # OmnifitBrain
+> 영어로 읽기: [ENGLISH](README.en.md)
 
 ## 개요
 
