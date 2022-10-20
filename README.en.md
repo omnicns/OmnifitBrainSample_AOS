@@ -1,5 +1,5 @@
 # OmnifitBrain
-> Read in Korean: [한국어](README.md)
+> Read in Korean: [KOREAN](README.md)
 
 ## Summary
 
