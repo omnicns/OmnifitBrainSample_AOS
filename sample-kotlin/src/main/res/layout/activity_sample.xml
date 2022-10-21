@@ -13,41 +13,157 @@
             android:padding="5dp"
             tools:context="omnifit.sdk.javatestapplication.MainActivity">
 
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_find"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="start find"
+                app:layout_constraintEnd_toStartOf="@id/btn_stop_find"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Start Find" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_scan"
+                android:id="@+id/btn_stop_find"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="stop find"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/btn_find"
+                app:layout_constraintTop_toTopOf="@id/btn_find"
+                tools:text="Stop find" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_scan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Scan" />
+                android:gravity="center"
+                android:textSize="15sp"
+                app:layout_constraintTop_toBottomOf="@id/btn_find"
+                tools:text="Not scan" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcv_device"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toBottomOf="@id/tv_scan"
+                tools:listitem="@layout/item_device" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_device"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:textSize="15sp"
+                app:layout_constraintTop_toBottomOf="@id/rcv_device"
+                tools:text="Max Rssi Device information" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_connect"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/btn_scan"
+                android:layout_marginTop="10dp"
+                android:text="connect"
+                app:layout_constraintEnd_toStartOf="@id/btn_disconnect"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_device"
                 tools:text="Connect" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_scan_connect"
+                android:id="@+id/btn_disconnect"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="disconnect"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/btn_connect"
+                app:layout_constraintTop_toTopOf="@id/btn_connect"
+                tools:text="Disconnect" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_connect"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/btn_connect"
-                tools:text="Waiting" />
+                android:gravity="center"
+                android:textSize="15sp"
+                app:layout_constraintTop_toBottomOf="@id/btn_disconnect"
+                tools:text="Disconnecting" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_connected_device"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="15sp"
+                app:layout_constraintTop_toBottomOf="@id/tv_connect"
+                tools:text="null" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_find_connect"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Start find with connect"
+                app:layout_constraintEnd_toStartOf="@id/btn_stop_find_connect"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_connected_device"
+                tools:text="Start find with connect" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_stop_find_connect"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="stop finding or connecting"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/btn_find_connect"
+                app:layout_constraintTop_toTopOf="@id/btn_find_connect"
+                tools:text="stop finding or connecting" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_is_finding_is_connecting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_find_connect"
+                tools:text="isFindingOrConnecting" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_measure"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="start measuring"
+                app:layout_constraintEnd_toStartOf="@id/btn_stop_measure"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_is_finding_is_connecting"
+                tools:text="Measure" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_stop_measure"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="stop measuring"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/btn_measure"
+                app:layout_constraintTop_toTopOf="@id/btn_measure"
+                tools:text="stop measuring" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_measure"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/btn_scan_connect"
-                tools:text="Measure" />
+                android:gravity="center"
+                android:textSize="15sp"
+                app:layout_constraintTop_toBottomOf="@id/btn_measure"
+                tools:text="Measuring" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_get_serial"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/get_serial_num"
-                app:layout_constraintTop_toBottomOf="@id/btn_measure" />
+                app:layout_constraintTop_toBottomOf="@id/tv_measure" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_get_signal"
@@ -64,53 +180,13 @@
                 app:layout_constraintTop_toBottomOf="@id/btn_get_signal" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_device"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:textSize="15sp"
-                app:layout_constraintTop_toBottomOf="@id/btn_get_start"
-                tools:text="Device information" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_scan"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:textSize="15sp"
-                app:layout_constraintTop_toBottomOf="@id/tv_device"
-                tools:text="Not scan" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_connect"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:textSize="15sp"
-                app:layout_constraintTop_toBottomOf="@id/tv_scan"
-                tools:text="Disconnecting" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_measure"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:textSize="15sp"
-                app:layout_constraintTop_toBottomOf="@id/tv_connect"
-                tools:text="Measuring" />
-
-            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:textSize="15sp"
-                app:layout_constraintTop_toBottomOf="@id/tv_measure"
+                app:layout_constraintTop_toBottomOf="@id/btn_get_start"
                 tools:text="Status" />
 
             <androidx.appcompat.widget.AppCompatTextView

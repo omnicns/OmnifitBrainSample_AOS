@@ -18,6 +18,9 @@ class SampleActivity : AppCompatActivity() {
     private val binding: ActivitySampleBinding by lazy {
         DataBindingUtil.setContentView(this, R.layout.activity_sample)
     }
+    private val adapter: SampleAdapter by lazy {
+        SampleAdapter()
+    }
 
     @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,13 +42,18 @@ class SampleActivity : AppCompatActivity() {
 
         binding.apply {
             lifecycleOwner = this@SampleActivity
+            rcvDevice.adapter = adapter
 
-            btnScan.setOnClickListener {
+            btnFind.setOnClickListener {
                 viewModel.find(10) { throwable ->
                     runOnUiThread {
                         Toast.makeText(applicationContext, throwable.message.toString(), Toast.LENGTH_SHORT).show()
                     }
                 }
+            }
+
+            btnStopFind.setOnClickListener {
+                viewModel.stopFinding()
             }
 
             btnConnect.setOnClickListener {
@@ -56,12 +64,20 @@ class SampleActivity : AppCompatActivity() {
                 }
             }
 
-            btnScanConnect.setOnClickListener {
-                viewModel.findWithConnect(10) { throwable ->
+            btnDisconnect.setOnClickListener {
+                viewModel.disConnect()
+            }
+
+            btnFindConnect.setOnClickListener {
+                viewModel.findWithConnect(5) { throwable ->
                     runOnUiThread {
                         Toast.makeText(applicationContext, throwable.message.toString(), Toast.LENGTH_SHORT).show()
                     }
                 }
+            }
+
+            btnStopFindConnect.setOnClickListener {
+                viewModel.stopFindingOrDisconnecting()
             }
 
             btnMeasure.setOnClickListener {
@@ -70,6 +86,10 @@ class SampleActivity : AppCompatActivity() {
                         Toast.makeText(applicationContext, throwable.message.toString(), Toast.LENGTH_SHORT).show()
                     }
                 })
+            }
+
+            btnStopMeasure.setOnClickListener {
+                viewModel.stopMeasuring()
             }
 
             btnGetSerial.setOnClickListener {
@@ -101,43 +121,45 @@ class SampleActivity : AppCompatActivity() {
             isScanning.observe(this@SampleActivity) {
                 if (it) {
                     binding.tvScan.text = "Scanning"
-                    binding.btnScan.text = "Stop scan"
                 } else {
                     binding.tvScan.text = "Not Scan"
-                    binding.btnScan.text = "Start scan"
                 }
             }
 
             isConnecting.observe(this@SampleActivity) {
                 if (it) {
                     binding.tvConnect.text = "Connecting"
-                    binding.btnConnect.text = "Disconnect"
                 } else {
                     binding.tvConnect.text = "Not Connect"
-                    binding.btnConnect.text = "Start connect"
                 }
             }
 
             isScanningOrConnecting.observe(this@SampleActivity) {
                 if (it) {
-                    binding.btnScanConnect.text = "Stop scanning or disconnecting"
+                    binding.tvIsFindingIsConnecting.text = "Now State is finding or connecting"
                 } else {
-                    binding.btnScanConnect.text = "Waiting"
+                    binding.tvIsFindingIsConnecting.text = "Waiting"
                 }
             }
 
             isMeasuring.observe(this@SampleActivity) {
                 if (it) {
                     binding.tvMeasure.text = "Measuring"
-                    binding.btnMeasure.text = "Stop measuring"
                 } else {
                     binding.tvMeasure.text = "Not measuring"
-                    binding.btnMeasure.text = "Start measuring"
                 }
             }
 
             scannedBluetoothDevice.observe(this@SampleActivity) {
-                binding.tvDevice.text = it?.name ?: "No device"
+                binding.tvDevice.text = it?.let { "${it.name} - ${it.address}" } ?: "No Device"
+            }
+
+            scannedBluetoothDevices.observe(this@SampleActivity) {
+                adapter.setData(it)
+            }
+
+            connectedBluetoothDevice.observe(this@SampleActivity) {
+                binding.tvConnectedDevice.text = it?.let { "${it.name} - ${it.address}" } ?: "No Device"
             }
 
             // Device status monitoring part(electrodeStatus + eegStabilityValue + batteryLevel)
