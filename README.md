@@ -183,10 +183,11 @@ isMeasuring 값이 true 일 때 startMeasuring 함수를 다시 한번 호출하
 측정이 시작되면 2초 단위로 result라는 LiveData<Result>가 갱신됩니다.<br/>
 Result 데이터 클래스 프로퍼티로 설정된 뇌파 측정 데이터에 대한 자세한 내용은 다음과 같습니다.
 
-### 뇌파 데이터 획득
+### Result 데이터 클래스 데이터 획득
 
 |**프로퍼티**|**데이터구분**|**의미**|**범위**|
 |:---:|:---:|:---:|:---:|
+|isLossOccur|`패킷 유실 발생체크값`|패킷 유실이 발생했는지 체크하는값(사용하면 안되는 값인지를 나타냄)|true, false|
 |leftThetaIndicatorValue|`좌뇌쎄타 크기판정값`|좌뇌 쎄타파(4-8Hz미만) 절대파워의 크기판정값|0~10|
 |rightThetaIndicatorValue|`우뇌쎄타 크기판정값`|우뇌 쎄타파(4-8Hz미만) 절대파워의 크기판정값|0~10|
 |leftAlphaIndicatorValue|`좌뇌알파 크기판정값`|좌뇌 알파파(8-12Hz미만) 절대파워의 크기판정값|0~10|
