@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
 ### 브레인 장치 검색/취소
 
 ViewModel의 **find 함수**를 호출하면 장치 검색이 시작되고 **isScanning 값**이 true로 변경됩니다. <br/>
-isScanning 값이 true일 때 find 함수를 다시 한번 호출하거나 **stopFind 함수**를 호출하면 isScanning 값이 false로 바뀌며 검색이 취소됩니다.<br/>
+isScanning 값이 true일 때 find 함수를 다시 한번 호출하거나 **stopFinding 함수**를 호출하면 isScanning 값이 false로 바뀌며 검색이 취소됩니다.<br/>
 검색이 수행되는 도중에는 **scannedBluetoothDevices**에 브레인 장치들이 값으로 설정되고, 
 검색이 완료되면 **scannedBluetoothDevice**에 가장 큰 Rssi 값을 가진 기기가 값으로 설정됩니다. 
 
