@@ -208,7 +208,6 @@ The details of the EEG measurement data set by the Result data class property ar
 |leftRelaxationIndicatorValue|`Left brain relaxation size value`|size value of left brain relaxation|0~10|
 |rightRelaxationIndicatorValue|`Right brain relaxation size value`|size value of right brain relaxation|0~10|
 |unbalanceIndicatorValue|`Left-Right brain balance size value`|size value of left-right brain balance|0~10|
-
 |leftPowerSpectrum|`Left Brain Power Spectrum`|left brain power spectrum (double array with indices 0 to 73)|each element is between 0 and 655.35|
 |rightPowerSpectrum|`Right Brain Power Spectrum`|right brain power spectrum (double array with indices 0 to 73)|each element is between 0 and 655.35|
 |leftThetaPowerSpectrum|`Left brain theta power spectrum value`|theta power spectrum value of left brain|0~655.35 * 8|
@@ -223,7 +222,6 @@ The details of the EEG measurement data set by the Result data class property ar
 |rightHighBetaPowerSpectrum|`Right brain high-beta power spectrum value`|high-beta power spectrum value of right brain|0~655.35 * 21|
 |leftGammaPowerSpectrum|`Left brain gamma power spectrum value`|gamma power spectrum value of left brain|0~655.35 * 21|
 |rightGammaPowerSpectrum|`Right brain gamma power spectrum value`|gamma power spectrum value of right brain|0~655.35 * 21|
-
 |leftTotalPowerSpectrum|`Left brain total power spectrum value`|total power spectrum value of left brain|0~655.35 * 74|
 |rightTotalPowerSpectrum|`Right brain total power spectrum value`|total power spectrum value of right brain|0~655.35 * 74|
 |leftThetaRatio|`Left brain theta ratio`|ratio of left brain theta waves|0~100|
