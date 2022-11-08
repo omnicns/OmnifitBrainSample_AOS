@@ -265,6 +265,31 @@ The properties up to leftThetaIndicatorValue, rightThetaIndicatorValue, leftAlph
 
 <br/>
 
+### 두뇌 점수 획득
+
+ViewModel의 **getBrainScore 함수**를 호출하면 두뇌 점수를 획득할 수 있습니다.
+인자로 ArrayList<Result>를 넘기면 되고, 리턴값은 Int 타입의 두뇌 점수입니다.
+<br/>
+단, getBrainScore는 인자로 넘긴 리스트가 비어있거나, 측정하는 동안 장치를 잘못 착용하여 뇌파 데이터 전체가 사용할 수 없는 경우 IllegalArgumentException을 던집니다.
+오류의 내용은 에러 객체의 message 프로퍼티를 통해서 확인할 수 있습니다.
+
+#### getBrainScore 함수 매개 변수
+
+> results : ArrayList<Result> 타입의 매개 변수. 측정이 진행된 시간동안 Result 데이터 클래스를 ArrayList로 모은 후 인자로 넘기면 됨.
+
+#### 사용 예시
+```kotlin
+// resultList(ArrayList<Result>에 값이 있다고 가정)
+try {
+    val score = viewModel.getBrainScore(resultList)
+    Timber.d("[SCORE] : $score")
+} catch (e: IllegalArgumentException) {
+    Timber.e("[IllegalArgumentException] - error : ${e.message}")
+}
+```
+
+<br/>
+
 #### startMeasuring() Function Parameters
 
 > measuringTime : measurement run time<br/>
@@ -401,7 +426,7 @@ viewModel.eegStabilityValue.observe(this@MainActivity) { value ->
 
 ```groovy
 dependencies {
-    implementation 'omnifit.sdk:omnifit-brain-ktx:0.0.2'
+    implementation 'omnifit.sdk:omnifit-brain-ktx:0.0.4'
 }
 ```
 

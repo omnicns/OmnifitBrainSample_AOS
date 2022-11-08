@@ -444,7 +444,7 @@ viewModel.eegStabilityValue.observe(this@MainActivity) { value ->
 
 ```groovy
 dependencies {
-    implementation 'omnifit.sdk:omnifit-brain-ktx:0.0.3'
+    implementation 'omnifit.sdk:omnifit-brain-ktx:0.0.4'
 }
 ```
 
