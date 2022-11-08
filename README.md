@@ -334,9 +334,9 @@ ViewModel의 **getBrainScore 함수**를 호출하면 두뇌 점수를 획득할
 // resultList(ArrayList<Result>에 값이 있다고 가정)
 try {
     val score = viewModel.getBrainScore(resultList)
-    Timber.d("[SCORE] : $score")
+    println("[SCORE] : $score")
 } catch (e: IllegalArgumentException) {
-    Timber.e("[IllegalArgumentException] - error : ${e.message}")
+    println("[IllegalArgumentException] - error : ${e.message}")
 }
 ```
 
