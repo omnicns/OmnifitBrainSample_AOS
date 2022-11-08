@@ -59,14 +59,14 @@ class MainActivity : AppCompatActivity() {
 ### Scanning/Cancelling Brain headsets
 
 The **find() function** in ViewModel starts searching for Brain devices and changes the **isScanning value** to true.<br/>
-If the find() function is called again or the stopFind() function is called when the value of isScanning is true, the isScanning value changes to false and the search is canceled.
-Brain devices are updated with scannedBluetoothDevices during scanning,
-When the scan is completed, the device with the largest Rssi value is updated as the scannedBluetoothDevice.
+If the find() function is called again or the stopFinding() function is called when the value of isScanning is true, the isScanning value changes to false and the search is canceled.
+Brain devices are updated with **scannedBluetoothDevices value** during scanning,
+When the scan is completed, the device with the largest Rssi is updated as **scannedBluetoothDevice value**.
 
 
 #### find() Function Parameters
 
-> duration : Time taken to search for a device.<br/>
+> duration : Time taken to search for a device. 10 is declared as a default parameter.<br/>
 > onError  : A callback that is called when an error occurs. Throwable is passed as an argument.
 
 #### Usage Example
@@ -80,7 +80,7 @@ viewModel.find(duration = 10, onError = { throwable ->
 })
 
 // Cancel device scanning
-viewModel.Finding()
+viewModel.stopFinding()
 
 // Search status
 viewModel.isScanning.observe(this@SampleActivity) { value ->
@@ -110,13 +110,14 @@ viewModel.scannedBluetoothDevice.observe(this@SampleActivity) { device ->
 
 Calling the **connect() function** in ViewModel initiates a connection and changes **the value of isConnecting** to true.<br/>
 When the isConnecting value is true, if the connect function is called again or the **disconnect() function** is called, the isConnecting value changes to false and the connection is disconnected.<br/>
+When the connection is established, the **connectedBluetoothDevice** value is set to the connected device, and when the connection is disconnected, the value is set to null.<br/>
 For reference, if the connection is disconnected, you can receive the phrase `Disconnect from device` as a callback method.
 
 
 #### connect() Function Parameters
 
-> device        : The device you want to connect to. scannedBluetoothDevice is declared as default parameter.<br/>
-> isAutoConnect : A Boolean value that sets the auto-connection option.<br/> 
+> device        : The device you want to connect to. scannedBluetoothDevice is declared as a default parameter.<br/>
+> isAutoConnect : A Boolean value that sets the auto-connection option. False is declared as a default parameter.<br/> 
 > onError       : A callback that is called when an error occurs. Throwable is passed as an argument.
 
 #### Usage Example
@@ -142,27 +143,43 @@ viewModel.isConnecting.observe(this@SampleActivity) { value ->
 }
 ```
 
+
+#### 결과
+```kotlin
+viewModel.connectedBluetoothDevice.observe(this@SampleActivity) { device ->
+    if (device == null) {
+        // No device connected
+    } else {
+        // Currently connected device
+    }
+}
+```
+
 <br/>
 
 ### Scanning and Connecting Brain Headset in Sequential
 
-Calling the ViewModel's **findWithConnect() function** will perform the search and connection sequentially.
-If the function is called again while searching, the search will be stopped, and if the function is called again while the connection is being made, the connection will be disconnected.<br/>
+Calling the ViewModel's **findWithConnect() function** will perform the search and connection sequentially.<br/>
+If findWithConnect() function or **stopFindingOrDisconnecting() function** is called while the search or connection is being performed, the search is stopped or the connection is disconnected.<br/>
 Checking the **isScanningOrConnecting** value will tell you if that function is performing.
 
 #### findWithConnect() Function Parameters
 
-> duration : Time taken to search for a device.<br/>
-> device   : If a device that has already been found is passed as an argument, only connection is performed without searhcing. null is declared as default parameter.<br/>
-> onError  : A callback that is called when an error occurs. Throwable is passed as an argument.
+> duration      : Time taken to search for a device. 10 is declared as a default parameter.<br/>
+> device        : If a device that has already been found is passed as an argument, only connection is performed without searhcing. null is declared as default parameter.<br/>
+> isAutoConnect : A Boolean value that sets the auto connect option. False is declared as a default parameter.<br/>
+> onError       : A callback that is called when an error occurs. Throwable is passed as an argument.
 
 #### Usage Example
 
 ```kotlin
 // connect to headset after discovery
-viewModel.findWithConnect(duration = 10, device = null, onError = { throwable ->
+viewModel.findWithConnect(duration = 5, device = null, isAutoConnect = false, onError = { throwable ->
     Toast.makeText(applicationContext, throwable.message, Toast.LENGTH_SHORT).show()
 })
+
+// stop searching devices or disconnect a connection
+viewModel.stopFindingOrDisconnecting()
 
 // status of search and connection
 viewModel.isScanningOrConnecting.observe(this@SampleActivity) { value ->
@@ -183,7 +200,7 @@ viewModel.isScanningOrConnecting.observe(this@SampleActivity) { value ->
 Calling the **startMeasuring() function** of the ViewModel will start the measurement and change the **isMeasuring value** to true<br/>
 If the startMeasuring function is called again or the **stopMeasuring function** is called when the isMeasuring value is true, the isMeasuring value changes to false and the measurement ends.
 Alternatively, the measurement ends when the measurement time passed as a factor is over.<br/>
-When measurement starts, LiveData<Result> named 'result' is updated every 2 seconds.<br/>
+When measurement starts, LiveData<Result> named **'result'** is updated every 2 seconds.<br/>
 The details of the EEG measurement data set by the Result data class property are as follows.
 
 
@@ -208,8 +225,8 @@ The details of the EEG measurement data set by the Result data class property ar
 |leftRelaxationIndicatorValue|`Left brain relaxation size value`|size value of left brain relaxation|0~10|
 |rightRelaxationIndicatorValue|`Right brain relaxation size value`|size value of right brain relaxation|0~10|
 |unbalanceIndicatorValue|`Left-Right brain balance size value`|size value of left-right brain balance|0~10|
-|leftPowerSpectrum|`Left Brain Power Spectrum`|left brain power spectrum (double array with indices 0 to 73)|each element is between 0 and 655.35|
-|rightPowerSpectrum|`Right Brain Power Spectrum`|right brain power spectrum (double array with indices 0 to 73)|each element is between 0 and 655.35|
+|leftPowerSpectrum|`Left Brain Power Spectrum`|left brain power spectrum (double array with indices 0 to 81)|each element is between 0 and 655.35|
+|rightPowerSpectrum|`Right Brain Power Spectrum`|right brain power spectrum (double array with indices 0 to 81)|each element is between 0 and 655.35|
 |leftThetaPowerSpectrum|`Left brain theta power spectrum value`|theta power spectrum value of left brain|0~655.35 * 8|
 |rightThetaPowerSpectrum|`Right brain theta power spectrum value`|theta power spectrum value of right brain|0~655.35 * 8|
 |leftAlphaPowerSpectrum|`Left brain alpha power spectrum value`|alpha power spectrum value of left brain|0~655.35 * 8|
@@ -222,8 +239,8 @@ The details of the EEG measurement data set by the Result data class property ar
 |rightHighBetaPowerSpectrum|`Right brain high-beta power spectrum value`|high-beta power spectrum value of right brain|0~655.35 * 21|
 |leftGammaPowerSpectrum|`Left brain gamma power spectrum value`|gamma power spectrum value of left brain|0~655.35 * 21|
 |rightGammaPowerSpectrum|`Right brain gamma power spectrum value`|gamma power spectrum value of right brain|0~655.35 * 21|
-|leftTotalPowerSpectrum|`Left brain total power spectrum value`|total power spectrum value of left brain|0~655.35 * 74|
-|rightTotalPowerSpectrum|`Right brain total power spectrum value`|total power spectrum value of right brain|0~655.35 * 74|
+|leftTotalPowerSpectrum|`Left brain total power spectrum value`|total power spectrum value of left brain|0~655.35 * 82|
+|rightTotalPowerSpectrum|`Right brain total power spectrum value`|total power spectrum value of right brain|0~655.35 * 82|
 |leftThetaRatio|`Left brain theta ratio`|ratio of left brain theta waves|0~100|
 |leftAlphaRatio|`Left brain alpha ratio`|ratio of left brain alpha waves|0~100|
 |leftLowBetaRatio|`Left brain low-beta ratio`|ratio of left brain low-beta waves|0~100|
@@ -245,12 +262,12 @@ The details of the EEG measurement data set by the Result data class property ar
 
 |**Data Classification**|**Hz Range**|**Index Range**|**Count**|
 |:---:|:---:|:---:|:---:|
-|THETA|4 ~ 8Hz|left/rightPowerSpectrum[0 ~ 7]|8|
-|ALPHA|8 ~ 12Hz|left/rightPowerSpectrum[8 ~ 15]|8|
-|L-BETA|12 ~ 15Hz|left/rightPowerSpectrum[16 ~ 21]|6|
-|M-BETA|15 ~ 20Hz|left/rightPowerSpectrum[22 ~ 31]|10|
-|H-BETA|20 ~ 30Hz|left/rightPowerSpectrum[32 ~ 52]|21|
-|GAMMA|30 ~ 40Hz|left/rightPowerSpectrum[53 ~ 73]|21|
+|THETA|4 ~ 8Hz|left/rightPowerSpectrum[8 ~ 15]|8|
+|ALPHA|8 ~ 12Hz|left/rightPowerSpectrum[16 ~ 23]|8|
+|L-BETA|12 ~ 15Hz|left/rightPowerSpectrum[24 ~ 29]|6|
+|M-BETA|15 ~ 20Hz|left/rightPowerSpectrum[30 ~ 39]|10|
+|H-BETA|20 ~ 30Hz|left/rightPowerSpectrum[40 ~ 60]|21|
+|GAMMA|30 ~ 40Hz|left/rightPowerSpectrum[61 ~ 81]|21|
 
 <br/>
 
@@ -260,8 +277,8 @@ The properties up to leftThetaIndicatorValue, rightThetaIndicatorValue, leftAlph
 
 ![img.png](img.png)
 
-* For all other properties except unbalanceIndicatorValue, a value of 5 is standard, and as it converges to 0, it means a very low state, and as it converges to 10, it indicates a very high state.
-* As for unbalanceIndicatorValue, a value of 5 means left-brain balance, and as it converges to 0, it means that the right brain is activated, and as it converges to 10, it means that the left brain is activated.
+* For all other properties except unbalanceIndicatorValue, 5 is the standard, and the more it converges to 0, the lower the state. Converging to 10 means a very high state.
+* As for unbalanceIndicatorValue, 5 means left and right brain balance, and as it converges to 0, it means that the right brain is activated, and as it converges to 10, it means that the left brain is activated.
 
 <br/>
 
@@ -292,8 +309,8 @@ try {
 
 #### startMeasuring() Function Parameters
 
-> measuringTime : measurement run time<br/>
-> eyeState      : state of whether the eyes are open or closed.<br/>
+> measuringTime : measurement run time. 60 is declared as a default parameter.<br/>
+> eyeState      : state of whether the eyes are open or closed. CLOSED is declared as a default parameter.<br/>
 > onError       : A callback that is called when an error occurs. Throwable is passed as an argument.
 
 #### Usage Example
@@ -368,8 +385,8 @@ You can use the following LiveData to determine the current state of your device
  * ALL_DETACHED -> all detached
  * LEFT_ELECTRODE_DETACHED -> left eeg sensor detached
  * RIGHT_ELECTRODE_DETACHED -> right eeg sensor detached
- * LEFT_EARPHONE_DETACHED -> left, right eeg sensor detached
- * RIGHT_EARPHONE_DETACHED -> earphone detached
+ * LEFT_EARPHONE_DETACHED -> left earphone detached
+ * RIGHT_EARPHONE_DETACHED -> right earphone detached
  * ALL_ATTACHED -> all attached
  */
 viewModel.electrodeStatus.observe(this@SampleActivity) { state ->
@@ -426,7 +443,11 @@ viewModel.eegStabilityValue.observe(this@MainActivity) { value ->
 
 ```groovy
 dependencies {
+<<<<<<< HEAD
     implementation 'omnifit.sdk:omnifit-brain-ktx:0.0.4'
+=======
+    implementation 'omnifit.sdk:omnifit-brain-ktx:0.0.3'
+>>>>>>> a321da824ccf4cb68c50d2f365398a2d7d7d42eb
 }
 ```
 
