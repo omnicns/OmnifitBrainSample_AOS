@@ -21,6 +21,9 @@ class SampleActivity : AppCompatActivity() {
     private val adapter: SampleAdapter by lazy {
         SampleAdapter()
     }
+    private val resultList: ArrayList<Result> by lazy {
+        ArrayList()
+    }
 
     @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,6 +84,7 @@ class SampleActivity : AppCompatActivity() {
             }
 
             btnMeasure.setOnClickListener {
+                resultList.clear()
                 viewModel.startMeasuring(measuringTime = 30, eyesState = Result.EyesState.CLOSED, onError = { throwable ->
                     runOnUiThread {
                         Toast.makeText(applicationContext, throwable.message.toString(), Toast.LENGTH_SHORT).show()
@@ -90,6 +94,13 @@ class SampleActivity : AppCompatActivity() {
 
             btnStopMeasure.setOnClickListener {
                 viewModel.stopMeasuring()
+
+                try {
+                    val score = viewModel.getBrainScore(resultList)
+                    Toast.makeText(applicationContext, score.toString(), Toast.LENGTH_SHORT).show()
+                } catch (throwable: IllegalArgumentException) {
+                    Toast.makeText(applicationContext, throwable.message.toString(), Toast.LENGTH_SHORT).show()
+                }
             }
 
             btnGetSerial.setOnClickListener {
@@ -169,6 +180,10 @@ class SampleActivity : AppCompatActivity() {
 
             result.observe(this@SampleActivity) {
                 binding.tvResult.text = it.toString()
+
+                if (isMeasuring.value == true && !it.isLossOccur) {
+                    resultList.add(it)
+                }
             }
         }
     }
