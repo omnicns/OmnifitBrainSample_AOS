@@ -10,6 +10,7 @@ The functions provided by the library are organized below.
 * Connecting/Disconnecting Brain Headset
 * Scanning and Connecting Brain Headset in Sequential
 * Starting/terminating Measurement (Acquiring EEG Data)
+* Obtaining Brain Score
 * Obtaining Headset Information
 * Monitoring Headset Status; connectivity status, electrode sensor attachment status, battery remaining, and more.
 
@@ -282,31 +283,6 @@ The properties up to leftThetaIndicatorValue, rightThetaIndicatorValue, leftAlph
 
 <br/>
 
-### 두뇌 점수 획득
-
-ViewModel의 **getBrainScore 함수**를 호출하면 두뇌 점수를 획득할 수 있습니다.
-인자로 ArrayList<Result>를 넘기면 되고, 리턴값은 Int 타입의 두뇌 점수입니다.
-<br/>
-단, getBrainScore는 인자로 넘긴 리스트가 비어있거나, 측정하는 동안 장치를 잘못 착용하여 뇌파 데이터 전체가 사용할 수 없는 경우 IllegalArgumentException을 던집니다.
-오류의 내용은 에러 객체의 message 프로퍼티를 통해서 확인할 수 있습니다.
-
-#### getBrainScore 함수 매개 변수
-
-> results : ArrayList<Result> 타입의 매개 변수. 측정이 진행된 시간동안 Result 데이터 클래스를 ArrayList로 모은 후 인자로 넘기면 됨.
-
-#### 사용 예시
-```kotlin
-// resultList(ArrayList<Result>에 값이 있다고 가정)
-try {
-    val score = viewModel.getBrainScore(resultList)
-    println("[SCORE] : $score")
-} catch (e: IllegalArgumentException) {
-    println("[IllegalArgumentException] - error : ${e.message}")
-}
-```
-
-<br/>
-
 #### startMeasuring() Function Parameters
 
 > measuringTime : measurement run time. 60 is declared as a default parameter.<br/>
@@ -340,6 +316,31 @@ viewModel.result.observe(this@SampleActivity) { value ->
 
 <br/>
 
+### Obtaining Brain Score
+    
+You can get the brain score by calling the **getBrainScore() function** of the ViewModel.
+The function requires an ArrayList<Result> as an argument, and returns an Int value.
+<br/>
+However, IllegalArgumentException is thrown if the list passed as an argument is empty or the entire EEG data cannot be used because the device is worn incorrectly during measurement.
+Errors can be checked through the message property of the error object.
+
+#### getBrainScore() Function Parameters
+
+> results : ArrayList<Result> type parameter. While the measurement is in progress, collect the Result data class as an ArrayList and pass it as an argument.
+
+#### Usage Example
+```kotlin
+// resultList(Assume ArrayList<Result> is not empty)
+try {
+    val score = viewModel.getBrainScore(resultList)
+    println("[SCORE] : $score")
+} catch (e: IllegalArgumentException) {
+    println("[IllegalArgumentException] - error : ${e.message}")
+}
+```
+
+<br/>
+    
 ### Obtaining Headset Information
 
 Once the connection with the device is established, you can get the **device serial number, measurement state transition time, and signal stability threshold**.<br/>
