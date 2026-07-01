@@ -444,7 +444,7 @@ viewModel.eegStabilityValue.observe(this@MainActivity) { value ->
 
 ```groovy
 dependencies {
-    implementation 'omnifit.sdk:omnifit-brain-ktx:0.0.4'
+    implementation 'omnifit.sdk:omnifit-brain-ktx:0.0.5'
 }
 ```
 
@@ -458,7 +458,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        maven { url 'http://maven.omnicns.co.kr/nexus/content/repositories/releases/'; allowInsecureProtocol true }
+        maven { url 'https://maven.omnifit.co.kr/nexus/content/repositories/releases/'; allowInsecureProtocol true }
     }
 }
 ```
